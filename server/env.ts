@@ -7,26 +7,18 @@ const __dirname = path.dirname(__filename);
 const envPath = path.resolve(__dirname, "../.env");
 
 export function setupEnvironment() {
-  const result = dotenv.config({ path: envPath });
-  if (result.error) {
-    throw new Error(
-      `Failed to load .env file from ${envPath}: ${result.error.message}`
-    );
+  // 在非生产环境下尝试加载 .env 文件
+  if (process.env.NODE_ENV !== 'production') {
+    const result = dotenv.config({ path: envPath });
+    if (result.error) {
+      console.warn(`Warning: ${envPath} not found, using process.env`);
+    }
   }
 
-  if (!process.env.GOOGLE_API_KEY) {
-    throw new Error(
-      "GOOGLE_API_KEY environment variable must be set in .env file"
-    );
-  }
-
-  if (process.env.HTTPS_PROXY) {
-    console.log("HTTPS_PROXY environment variable set to ", process.env.HTTPS_PROXY);
-  }
-
+  // 返回必要的环境变量，使用 process.env 作为后备
   return {
-    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
-    HTTPS_PROXY: process.env.HTTPS_PROXY,
-    NODE_ENV: process.env.NODE_ENV || "development",
+    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY || '',
+    HTTPS_PROXY: process.env.HTTPS_PROXY || '',
+    NODE_ENV: process.env.NODE_ENV || 'development'
   };
 }

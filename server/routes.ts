@@ -7,9 +7,16 @@ import {
 } from "@google/generative-ai";
 import { marked } from "marked";
 import { setupEnvironment } from "./env";
+import { setGlobalDispatcher, ProxyAgent } from "undici";
 
 const env = setupEnvironment();
+if (env.HTTPS_PROXY) {
+  const dispatcher = new ProxyAgent({ uri: new URL(env.HTTPS_PROXY).toString() });
+  setGlobalDispatcher(dispatcher);
+}
+
 const genAI = new GoogleGenerativeAI(env.GOOGLE_API_KEY);
+
 const model = genAI.getGenerativeModel({
   model: "gemini-2.0-flash-exp",
   generationConfig: {

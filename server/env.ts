@@ -20,8 +20,13 @@ export function setupEnvironment() {
     );
   }
 
+  if (process.env.HTTPS_PROXY) {
+    console.log("HTTPS_PROXY environment variable set to ", process.env.HTTPS_PROXY);
+  }
+
   return {
     GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+    HTTPS_PROXY: process.env.HTTPS_PROXY,
     NODE_ENV: process.env.NODE_ENV || "development",
   };
 }

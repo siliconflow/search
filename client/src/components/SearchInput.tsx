@@ -10,6 +10,7 @@ interface SearchInputProps {
   initialValue?: string;
   autoFocus?: boolean;
   large?: boolean;
+  maxLength?: number;
 }
 
 export function SearchInput({ 
@@ -18,12 +19,14 @@ export function SearchInput({
   initialValue = '',
   autoFocus = false,
   large = false,
+  maxLength = 500,
 }: SearchInputProps) {
   const [query, setQuery] = useState(initialValue);
 
   const handleSubmit = () => {
     if (query.trim() && !isLoading) {
-      onSearch(query.trim());
+      const sanitizedQuery = query.trim().slice(0, maxLength);
+      onSearch(sanitizedQuery);
     }
   };
 
@@ -46,6 +49,7 @@ export function SearchInput({
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask anything..."
+          maxLength={maxLength}
           className={cn(
             "pl-10 pr-4 transition-all duration-200",
             large && "h-12 text-lg rounded-lg",

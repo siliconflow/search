@@ -60,19 +60,22 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
+  if (process.env.NODE_ENV === 'production') {
+    // 生产环境下使用静态文件服务
+    const distPath = path.resolve(__dirname, '../dist');
+    app.use(express.static(distPath));
+    
+    // 所有未匹配的路由都返回 index.html（不是 index.js）
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(distPath, 'public/index.html'));
+    });
   } else {
-    serveStatic(app);
+    // 开发环境下使用 Vite
+    await setupVite(app, server);
   }
 
-  // ALWAYS serve the app on port 3333
-  // this serves both the API and the client
   const PORT = Number(process.env.PORT) || 3333;
   server.listen(PORT, "0.0.0.0", () => {
-    log(`serving on port ${PORT}`);
+    log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
   });
 })();

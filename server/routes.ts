@@ -13,6 +13,7 @@ const env = setupEnvironment();
 if (env.HTTPS_PROXY) {
   const dispatcher = new ProxyAgent({ uri: new URL(env.HTTPS_PROXY).toString() });
   setGlobalDispatcher(dispatcher);
+  console.log("use global dispatcher HTTPS_PROXY:", env.HTTPS_PROXY);
 }
 
 const genAI = new GoogleGenerativeAI(env.GOOGLE_API_KEY);

@@ -53,11 +53,11 @@ export function SourceList({ sources }: SourceListProps) {
                         </p>
                       )}
 
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground/70">
+                      {/* <div className="flex items-center gap-2 text-xs text-muted-foreground/70">
                         <span className="truncate max-w-[200px]">
                           {new URL(source.url).hostname.replace('www.', '')}
                         </span>
-                      </div>
+                      </div> */}
                     </div>
 
                     <ExternalLink className="h-4 w-4 flex-shrink-0 text-muted-foreground 

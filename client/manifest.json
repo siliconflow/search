@@ -1,7 +1,7 @@
 {
-  "name": "Gemini Search",
-  "short_name": "Gemini",
-  "description": "A search engine powered by Google's Gemini Flash",
+  "name": "Horay Search",
+  "short_name": "Search",
+  "description": "A search engine powered by HorayAI",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FCFCF9",

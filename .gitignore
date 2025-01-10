@@ -6,6 +6,7 @@ vendor/
 dist/
 build/
 out/
+dist-ssr
 
 # IDE和编辑器文件
 .idea/
